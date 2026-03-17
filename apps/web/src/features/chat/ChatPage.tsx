@@ -57,73 +57,136 @@ export function ChatPage() {
   }
 
   return (
-    <section style={{ display: "grid", gap: 16 }}>
-      <h2>Chat</h2>
-      <p>Backend status: {status}</p>
-
-      <div
+    <section
+      style={{
+        minHeight: "100vh",
+        display: "grid",
+        gridTemplateRows: "72px 1fr auto",
+        background: "#ffffff"
+      }}
+    >
+      <header
         style={{
-          border: "1px solid #d0d7de",
-          borderRadius: 12,
-          minHeight: 280,
-          padding: 16,
-          background: "#fafbfc"
+          borderBottom: "1px solid #111111",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 24px"
         }}
       >
-        {messages.length === 0 && !responseText ? (
-          <p style={{ margin: 0 }}>Send a message to try the OpenRouter-backed demo.</p>
-        ) : null}
-
-        {messages.map((message, index) => (
-          <p key={`${message.role}-${index}`} style={{ margin: "0 0 12px" }}>
-            <strong>{message.role}:</strong> {message.content}
-          </p>
-        ))}
-
-        {responseText ? (
-          <p style={{ margin: 0 }}>
-            <strong>assistant:</strong> {responseText}
-          </p>
-        ) : null}
-      </div>
-
-      <form onSubmit={handleSubmit} style={{ display: "grid", gap: 12 }}>
-        <textarea
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          placeholder="Type a message..."
-          rows={4}
+        <h2 style={{ margin: 0, fontSize: 20 }}>Chat</h2>
+        <div
           style={{
-            width: "100%",
-            borderRadius: 12,
-            border: "1px solid #d0d7de",
-            padding: 12,
-            font: "inherit"
-          }}
-        />
-        <button
-          type="submit"
-          disabled={isSending || input.trim().length === 0}
-          style={{
-            width: 160,
-            border: 0,
-            borderRadius: 999,
-            padding: "12px 16px",
-            background: "#111827",
-            color: "#ffffff",
-            cursor: isSending ? "wait" : "pointer",
-            font: "inherit"
+            border: "1px solid #111111",
+            padding: "8px 12px",
+            background: status === "ok" ? "#dcfce7" : "#f3f4f6",
+            textTransform: "uppercase",
+            fontSize: 12,
+            letterSpacing: "0.08em"
           }}
         >
-          {isSending ? "Sending..." : "Send Message"}
-        </button>
-      </form>
+          Backend {status}
+        </div>
+      </header>
 
-      {error ? (
-        <p style={{ color: "#b42318", margin: 0 }}>
-          <strong>Error:</strong> {error}
-        </p>
-      ) : null}
+      <div style={{ overflowY: "auto", padding: 24, background: "#f9fafb" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto", display: "grid", gap: 16 }}>
+          {messages.length === 0 && !responseText ? (
+            <div style={{ border: "1px solid #111111", background: "#ffffff", padding: 16 }}>
+              Ask anything to try the OpenRouter-backed demo.
+            </div>
+          ) : null}
+
+          {messages.map((message, index) => (
+            <article
+              key={`${message.role}-${index}`}
+              style={{
+                border: "1px solid #111111",
+                background: message.role === "user" ? "#e5e7eb" : "#ffffff",
+                padding: 16
+              }}
+            >
+              <div
+                style={{
+                  marginBottom: 8,
+                  fontSize: 12,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  color: "#4b5563"
+                }}
+              >
+                {message.role}
+              </div>
+              <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>{message.content}</div>
+            </article>
+          ))}
+
+          {responseText ? (
+            <article style={{ border: "1px solid #111111", background: "#ffffff", padding: 16 }}>
+              <div
+                style={{
+                  marginBottom: 8,
+                  fontSize: 12,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  color: "#4b5563"
+                }}
+              >
+                assistant
+              </div>
+              <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>{responseText}</div>
+            </article>
+          ) : null}
+        </div>
+      </div>
+
+      <div style={{ borderTop: "1px solid #111111", padding: 24, background: "#ffffff" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto", display: "grid", gap: 12 }}>
+          {error ? (
+            <div style={{ border: "1px solid #7f1d1d", background: "#fee2e2", color: "#7f1d1d", padding: 12 }}>
+              {error}
+            </div>
+          ) : null}
+
+          <form onSubmit={handleSubmit} style={{ display: "grid", gap: 12 }}>
+            <textarea
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder="Message SentinelAI"
+              rows={4}
+              style={{
+                width: "100%",
+                border: "1px solid #111111",
+                padding: 16,
+                font: "inherit",
+                resize: "vertical",
+                background: "#ffffff",
+                outline: "none"
+              }}
+            />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ color: "#6b7280", fontSize: 14 }}>
+                {isSending ? "Streaming response..." : "OpenRouter demo"}
+              </span>
+              <button
+                type="submit"
+                disabled={isSending || input.trim().length === 0}
+                style={{
+                  minWidth: 180,
+                  border: "1px solid #111111",
+                  padding: "12px 16px",
+                  background: isSending ? "#d1d5db" : "#111111",
+                  color: isSending ? "#374151" : "#ffffff",
+                  cursor: isSending ? "wait" : "pointer",
+                  font: "inherit"
+                }}
+              >
+                {isSending ? "Sending" : "Send message"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </section>
   );
 }

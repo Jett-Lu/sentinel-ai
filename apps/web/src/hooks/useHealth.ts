@@ -11,22 +11,35 @@ export function useHealth() {
 
   useEffect(() => {
     let active = true;
+    let timeoutId: number | undefined;
 
-    apiClient
-      .getHealth()
-      .then((response) => {
-        if (active) {
-          setStatus(response.status);
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setStatus("unavailable");
-        }
-      });
+    const load = () => {
+      apiClient
+        .getHealth()
+        .then((response) => {
+          if (active) {
+            setStatus(response.status);
+          }
+        })
+        .catch(() => {
+          if (active) {
+            setStatus("unavailable");
+          }
+        })
+        .finally(() => {
+          if (active) {
+            timeoutId = window.setTimeout(load, 5000);
+          }
+        });
+    };
+
+    load();
 
     return () => {
       active = false;
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
     };
   }, []);
 

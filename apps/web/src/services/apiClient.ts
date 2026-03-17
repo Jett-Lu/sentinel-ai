@@ -14,7 +14,7 @@ export class ApiClient {
     const response = await fetch(`${this.baseUrl}/health`);
 
     if (!response.ok) {
-      throw new Error(`Health request failed with status ${response.status}.`);
+      throw new Error(await this.readError(response, `Health request failed with status ${response.status}.`));
     }
 
     return response.json();
@@ -33,7 +33,7 @@ export class ApiClient {
     });
 
     if (!response.ok) {
-      throw new Error(`Chat request failed with status ${response.status}.`);
+      throw new Error(await this.readError(response, `Chat request failed with status ${response.status}.`));
     }
 
     const reader = response.body?.getReader();
@@ -66,6 +66,15 @@ export class ApiClient {
 
         onChunk(JSON.parse(line.slice(6)) as ChatStreamChunk);
       }
+    }
+  }
+
+  private async readError(response: Response, fallback: string) {
+    try {
+      const json = (await response.json()) as { error?: string };
+      return json.error ?? fallback;
+    } catch {
+      return fallback;
     }
   }
 }
