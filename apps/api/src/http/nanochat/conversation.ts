@@ -3,7 +3,7 @@
  * Upstream `scripts/chat_web.py` turns messages into model input right before generation.
  * Here we keep that step readable by using string markers instead of token ids.
  */
-import type { ChatMessageDto } from "../dto/chat.dto.js";
+import type { NanochatMessage } from "./messages.js";
 
 const BOS = "<|bos|>";
 const USER_START = "<|user_start|>";
@@ -11,7 +11,7 @@ const USER_END = "<|user_end|>";
 const ASSISTANT_START = "<|assistant_start|>";
 const ASSISTANT_END = "<|assistant_end|>";
 
-export function renderNanochatPrompt(messages: ChatMessageDto[]): string {
+export function renderNanochatPrompt(messages: NanochatMessage[]): string {
   const promptParts: string[] = [BOS];
 
   for (const message of messages) {

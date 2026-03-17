@@ -5,6 +5,7 @@
 import type { Request, Response } from "express";
 import type { ChatRequestDto } from "../dto/chat.dto.js";
 import { renderNanochatPrompt } from "../nanochat/conversation.js";
+import { prepareNanochatMessages } from "../nanochat/messages.js";
 import { writeNanochatChunk } from "../nanochat/sse.js";
 import { validateNanochatRequest } from "../nanochat/chatValidation.js";
 
@@ -19,7 +20,8 @@ export function nanochatChatController(
     return;
   }
 
-  const prompt = renderNanochatPrompt(request.body.messages);
+  const messages = prepareNanochatMessages(request.body.messages);
+  const prompt = renderNanochatPrompt(messages);
 
   response.setHeader("Content-Type", "text/event-stream");
   response.setHeader("Cache-Control", "no-cache");
