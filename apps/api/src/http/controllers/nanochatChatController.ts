@@ -4,7 +4,7 @@
  */
 import type { Request, Response } from "express";
 import type { ChatRequestDto } from "../dto/chat.dto.js";
-import { buildNanochatConversation } from "../nanochat/conversation.js";
+import { renderNanochatPrompt } from "../nanochat/conversation.js";
 import { writeNanochatChunk } from "../nanochat/sse.js";
 import { validateNanochatRequest } from "../nanochat/chatValidation.js";
 
@@ -19,16 +19,16 @@ export function nanochatChatController(
     return;
   }
 
-  const conversation = buildNanochatConversation(request.body.messages);
+  const prompt = renderNanochatPrompt(request.body.messages);
 
   response.setHeader("Content-Type", "text/event-stream");
   response.setHeader("Cache-Control", "no-cache");
   response.setHeader("Connection", "keep-alive");
 
-  // This mirrors the point in nanochat where validated messages become model input.
-  // TODO(nanochat): Tokenize `conversation.parts` and pass them into the upstream-style generation loop.
+  // This is where nanochat would hand the rendered prompt to generation.
+  // TODO(nanochat): Tokenize this prompt and pass it into the generation loop.
   writeNanochatChunk(response, {
-    token: `[nanochat-compatible endpoint placeholder]\n${conversation.promptText}`
+    token: `[nanochat-compatible endpoint placeholder]\n${prompt}`
   });
 
   // TODO(nanochat): Add worker and device metadata when the nanochat serving runtime is imported.
