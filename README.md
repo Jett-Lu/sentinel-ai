@@ -79,6 +79,32 @@ infra/        Deployment and environment placeholders
 - This repository reuses and adapts ideas from `nanochat`, especially the early chat-serving flow in `scripts/chat_web.py`
 - The local scaffold, TypeScript structure, and incremental adaptation layers in this repo are original project code built around that upstream reference
 
+## Quick Demo
+
+Install dependencies:
+
+```powershell
+npm.cmd install
+```
+
+Run the API demo:
+
+```powershell
+npm.cmd run start:api:npm
+```
+
+Test the demo endpoints:
+
+```powershell
+curl http://localhost:4000/health
+```
+
+```powershell
+curl -N -X POST http://localhost:4000/chat/completions `
+  -H "Content-Type: application/json" `
+  -d "{\"messages\":[{\"role\":\"user\",\"content\":\"Hello demo\"}]}"
+```
+
 ## Notes
 
 - `NOTES.md` records what was reused from `nanochat`, what was adapted, and what remains original scaffold code.

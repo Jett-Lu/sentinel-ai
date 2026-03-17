@@ -3,11 +3,18 @@
   "name": "sentinel-ai",
   "private": true,
   "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "packageManager": "pnpm@10.7.0",
   "scripts": {
     "build": "pnpm -r build",
     "dev:api": "pnpm --filter @sentinel/api dev",
+    "dev:api:npm": "npm run dev --workspace=@sentinel/api",
+    "start:api:npm": "npm run build --workspace=@sentinel/api && npm run start --workspace=@sentinel/api",
     "dev:web": "pnpm --filter @sentinel/web dev",
+    "dev:web:npm": "npm run dev --workspace=@sentinel/web",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck"
   }
