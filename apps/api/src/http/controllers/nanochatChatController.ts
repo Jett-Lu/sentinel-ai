@@ -3,11 +3,14 @@
  * It preserves the upstream endpoint style while the actual model runtime is still a TODO.
  */
 import type { Request, Response } from "express";
+import { loadNanochatConfig, resolveNanochatRequestConfig } from "../../config/nanochat.js";
 import type { ChatRequestDto } from "../dto/chat.dto.js";
 import { renderNanochatPrompt } from "../nanochat/conversation.js";
 import { prepareNanochatMessages } from "../nanochat/messages.js";
 import { writeNanochatChunk } from "../nanochat/sse.js";
 import { validateNanochatRequest } from "../nanochat/chatValidation.js";
+
+const nanochatConfig = loadNanochatConfig();
 
 export function nanochatChatController(
   request: Request<unknown, unknown, ChatRequestDto>,
@@ -22,13 +25,14 @@ export function nanochatChatController(
 
   const messages = prepareNanochatMessages(request.body.messages);
   const prompt = renderNanochatPrompt(messages);
+  const requestConfig = resolveNanochatRequestConfig(request.body, nanochatConfig);
 
   response.setHeader("Content-Type", "text/event-stream");
   response.setHeader("Cache-Control", "no-cache");
   response.setHeader("Connection", "keep-alive");
 
   // This is where nanochat would hand the rendered prompt to generation.
-  // TODO(nanochat): Tokenize this prompt and pass it into the generation loop.
+  // TODO(nanochat): Tokenize this prompt and pass it, along with requestConfig, into generation.
   writeNanochatChunk(response, {
     token: `[nanochat-compatible endpoint placeholder]\n${prompt}`
   });
@@ -38,5 +42,6 @@ export function nanochatChatController(
     done: true
   });
 
+  void requestConfig;
   response.end();
 }

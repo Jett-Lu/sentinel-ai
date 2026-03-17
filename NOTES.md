@@ -15,6 +15,7 @@
 - The upstream FastAPI/Python server shape was adapted into the existing Express/TypeScript API scaffold.
 - The upstream-derived pieces are now isolated under `apps/api/src/http/nanochat` and in the dedicated `nanochatChatController`.
 - Conversation building is represented with readable string markers instead of tokenizer ids so the inference path stays easy to follow.
+- Nanochat-style serving defaults are adapted through `apps/api/src/config/nanochat.ts` instead of Python CLI arguments.
 - The streaming endpoint currently emits a placeholder token instead of invoking a model engine.
 - Worker-pool, tokenizer, and GPU-specific logic were intentionally left out for now and replaced with TODO comments.
 
