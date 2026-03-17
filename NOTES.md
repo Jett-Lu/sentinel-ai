@@ -12,7 +12,7 @@
 ## Adapted for this repository
 
 - The upstream FastAPI/Python server shape was adapted into the existing Express/TypeScript API scaffold.
-- Validation was moved into a dedicated module under `apps/api/src/http/validation`.
+- The upstream-derived pieces are now isolated under `apps/api/src/http/nanochat` and in the dedicated `nanochatChatController`.
 - The streaming endpoint currently emits a placeholder token instead of invoking a model engine.
 - Worker-pool, tokenizer, and GPU-specific logic were intentionally left out for now and replaced with TODO comments.
 
