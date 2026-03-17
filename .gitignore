@@ -1,0 +1,12 @@
+# Node.js dependencies and build output.
+node_modules/
+dist/
+coverage/
+
+# Local environment files.
+.env
+.env.local
+
+# Tooling output.
+.turbo/
+.vite/

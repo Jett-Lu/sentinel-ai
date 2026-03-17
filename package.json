@@ -1,0 +1,14 @@
+{
+  "//": "Root workspace manifest for the SentinelAI monorepo.",
+  "name": "sentinel-ai",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.7.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev:api": "pnpm --filter @sentinel/api dev",
+    "dev:web": "pnpm --filter @sentinel/web dev",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  }
+}

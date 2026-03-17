@@ -1,0 +1,4 @@
+# Workspace definition for all deployable apps and reusable packages.
+packages:
+  - "apps/*"
+  - "packages/*"

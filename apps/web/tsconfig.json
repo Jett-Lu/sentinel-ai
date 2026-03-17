@@ -1,0 +1,9 @@
+{
+  "//": "TypeScript configuration for the React frontend.",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "outDir": "dist"
+  },
+  "include": ["src", "vite.config.ts"]
+}

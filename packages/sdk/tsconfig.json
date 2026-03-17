@@ -1,0 +1,9 @@
+{
+  "//": "TypeScript configuration for the SDK package.",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
