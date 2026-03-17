@@ -5,6 +5,7 @@
  */
 import type { Request, Response } from "express";
 import type { ChatRequestDto, ChatStreamChunkDto } from "../dto/chat.dto.js";
+import { validateChatRequest } from "../validation/chatRequestValidation.js";
 
 function writeSseChunk(response: Response, chunk: ChatStreamChunkDto) {
   response.write(`data: ${JSON.stringify(chunk)}\n\n`);
@@ -15,10 +16,11 @@ export function chatCompletionsController(
   response: Response
 ) {
   const body = request.body;
+  const validation = validateChatRequest(body);
 
-  if (!Array.isArray(body?.messages) || body.messages.length === 0) {
+  if (!validation.ok) {
     response.status(400).json({
-      error: "At least one message is required."
+      error: validation.error
     });
     return;
   }
@@ -27,9 +29,14 @@ export function chatCompletionsController(
   response.setHeader("Cache-Control", "no-cache");
   response.setHeader("Connection", "keep-alive");
 
+  // TODO(nanochat): Replace this placeholder with the upstream-style conversation
+  // token building and model generation loop once a model engine is integrated.
   writeSseChunk(response, {
     token: "[nanochat-compatible endpoint placeholder]"
   });
+
+  // TODO(nanochat): Include worker/device metadata in streamed chunks once a
+  // worker pool similar to nanochat's multi-device server is added.
   writeSseChunk(response, {
     done: true
   });
