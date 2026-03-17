@@ -30,6 +30,7 @@ export function nanochatChatController(
   response.setHeader("Content-Type", "text/event-stream");
   response.setHeader("Cache-Control", "no-cache");
   response.setHeader("Connection", "keep-alive");
+  response.setHeader("X-Accel-Buffering", "no");
 
   // This is where nanochat would hand the rendered prompt to generation.
   // TODO(nanochat): Tokenize this prompt and pass it, along with requestConfig, into generation.
