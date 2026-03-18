@@ -1,20 +1,62 @@
 /**
  * Primary chat surface for the web application.
  */
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useHealth } from "../../hooks/useHealth";
 import { ApiClient } from "../../services/apiClient";
 import type { ChatMessage } from "../../types/api";
 
 const apiClient = new ApiClient("/api");
 
-export function ChatPage() {
+interface ChatPageProps {
+  input: string;
+  messages: ChatMessage[];
+  streamingText: string;
+  error: string;
+  isSending: boolean;
+  onInputChange: (value: string) => void;
+  onMessagesChange: (messages: ChatMessage[] | ((current: ChatMessage[]) => ChatMessage[])) => void;
+  onStreamingTextChange: (value: string) => void;
+  onErrorChange: (value: string) => void;
+  onSendingChange: (value: boolean) => void;
+}
+
+export function ChatPage({
+  input,
+  messages,
+  streamingText,
+  error,
+  isSending,
+  onInputChange,
+  onMessagesChange,
+  onStreamingTextChange,
+  onErrorChange,
+  onSendingChange
+}: ChatPageProps) {
   const { status } = useHealth();
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [streamingText, setStreamingText] = useState("");
-  const [error, setError] = useState("");
-  const [isSending, setIsSending] = useState(false);
+  const hasConversation = messages.length > 0 || Boolean(streamingText);
+  const [loadingDots, setLoadingDots] = useState(".");
+
+  useEffect(() => {
+    if (!isSending) {
+      setLoadingDots(".");
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setLoadingDots((current) => {
+        if (current === "...") {
+          return ".";
+        }
+
+        return `${current}.`;
+      });
+    }, 350);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [isSending]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,11 +68,11 @@ export function ChatPage() {
 
     const nextMessages = [...messages, { role: "user" as const, content }];
 
-    setMessages(nextMessages);
-    setInput("");
-    setStreamingText("");
-    setError("");
-    setIsSending(true);
+    onMessagesChange(nextMessages);
+    onInputChange("");
+    onStreamingTextChange("");
+    onErrorChange("");
+    onSendingChange(true);
 
     try {
       let assistantText = "";
@@ -42,85 +84,126 @@ export function ChatPage() {
         (chunk) => {
           if (chunk.token) {
             assistantText += chunk.token;
-            setStreamingText(assistantText);
+            onStreamingTextChange(assistantText);
           }
         }
       );
 
-      setMessages((current) => [...current, { role: "assistant", content: assistantText }]);
-      setStreamingText("");
+      onMessagesChange((current) => [...current, { role: "assistant", content: assistantText }]);
+      onStreamingTextChange("");
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : "Chat request failed.");
+      onErrorChange(requestError instanceof Error ? requestError.message : "Chat request failed.");
     } finally {
-      setIsSending(false);
+      onSendingChange(false);
     }
   }
 
   return (
-    <section className="sentinel-page">
-      <header className="sentinel-page-header">
-        <h2 style={{ margin: 0, fontSize: 20 }}>Chat</h2>
-        <div className={`sentinel-status ${status === "ok" ? "is-online" : ""}`}>
-          Backend {status}
-        </div>
-      </header>
-
-      <div className="sentinel-chat-scroll">
-        <div className="sentinel-chat-column">
-          {messages.length === 0 && !streamingText ? (
-            <div className="sentinel-card sentinel-card-animated">Start a conversation.</div>
-          ) : null}
-
-          {messages.map((message, index) => (
-            <article key={`${message.role}-${index}`} className={`sentinel-card sentinel-card-animated is-${message.role}`}>
-              <div className="sentinel-card-label">
-                {message.role}
-              </div>
-              <div className="sentinel-copy sentinel-copy-pre">{message.content}</div>
-            </article>
-          ))}
-
-          {streamingText ? (
-            <article className="sentinel-card sentinel-card-animated">
-              <div className="sentinel-card-label">
-                assistant
-              </div>
-              <div className="sentinel-copy sentinel-copy-pre">{streamingText}</div>
-            </article>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="sentinel-composer-wrap">
-        <div className="sentinel-chat-column">
-          {error ? (
-            <div className="sentinel-error">
-              {error}
+    <section className="sentinel-chat-page">
+      <div className={`sentinel-chat-stage ${hasConversation ? "is-active" : ""}`}>
+        {hasConversation ? (
+          <div className="sentinel-hero sentinel-hero-floating is-faded">
+            <div className="sentinel-hero-title">SentinelAI</div>
+            <div className="sentinel-hero-subtitle">
+              Multi-provider AI platform interface by Jett Lu using nanochat
             </div>
-          ) : null}
+          </div>
+        ) : null}
 
-          <form onSubmit={handleSubmit} className="sentinel-composer">
-            <textarea
-              value={input}
-              onChange={(event) => setInput(event.target.value)}
-              placeholder="Message SentinelAI"
-              rows={4}
-              className="sentinel-textarea"
-            />
-            <div className="sentinel-composer-row">
-              <span className="sentinel-meta">
-                {isSending ? "Generating response..." : "Connected provider"}
-              </span>
-              <button
-                type="submit"
-                disabled={isSending || input.trim().length === 0}
-                className="sentinel-button"
-              >
-                {isSending ? "Sending" : "Send"}
-              </button>
-            </div>
-          </form>
+        <div className={`sentinel-chat-scrollframe ${hasConversation ? "is-visible" : ""}`}>
+          <div className="sentinel-chat-column">
+            {messages.map((message, index) => (
+              <article key={`${message.role}-${index}`} className={`sentinel-card sentinel-card-animated is-${message.role}`}>
+                <div className="sentinel-card-label">
+                  {message.role}
+                </div>
+                <div className="sentinel-copy sentinel-copy-pre">{message.content}</div>
+              </article>
+            ))}
+
+            {streamingText ? (
+              <article className="sentinel-card sentinel-card-animated">
+                <div className="sentinel-card-label">
+                  assistant
+                </div>
+                <div className="sentinel-copy sentinel-copy-pre">{streamingText}</div>
+              </article>
+            ) : null}
+          </div>
         </div>
+
+        {!hasConversation ? (
+          <div className="sentinel-idle-center">
+            <div className="sentinel-composer-column">
+              <div className="sentinel-hero">
+                <div className="sentinel-hero-title">SentinelAI</div>
+                <div className="sentinel-hero-subtitle">
+                  Multi-provider AI platform interface by Jett Lu using nanochat
+                </div>
+              </div>
+
+              {error ? (
+                <div className="sentinel-error">
+                  {error}
+                </div>
+              ) : null}
+
+              <form onSubmit={handleSubmit} className="sentinel-composer sentinel-composer-idle">
+                <textarea
+                  value={input}
+                  onChange={(event) => onInputChange(event.target.value)}
+                  placeholder="Ask anything"
+                  rows={3}
+                  className="sentinel-textarea"
+                />
+                <div className="sentinel-composer-row">
+                  <span className="sentinel-meta">
+                    {isSending ? loadingDots : `Backend ${status}`}
+                  </span>
+                  <button
+                    type="submit"
+                    disabled={isSending || input.trim().length === 0}
+                    className="sentinel-button"
+                  >
+                    {isSending ? "Sending" : "Send"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        ) : (
+          <div className="sentinel-composer-wrap is-docked">
+            <div className="sentinel-composer-column">
+              {error ? (
+                <div className="sentinel-error">
+                  {error}
+                </div>
+              ) : null}
+
+              <form onSubmit={handleSubmit} className="sentinel-composer">
+                <textarea
+                  value={input}
+                  onChange={(event) => onInputChange(event.target.value)}
+                  placeholder="Ask anything"
+                  rows={3}
+                  className="sentinel-textarea"
+                />
+                <div className="sentinel-composer-row">
+                  <span className="sentinel-meta">
+                    {isSending ? loadingDots : `Backend ${status}`}
+                  </span>
+                  <button
+                    type="submit"
+                    disabled={isSending || input.trim().length === 0}
+                    className="sentinel-button"
+                  >
+                    {isSending ? "Sending" : "Send"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
