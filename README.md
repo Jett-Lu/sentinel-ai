@@ -1,15 +1,16 @@
 # SentinelAI
+<img width="3425" height="1321" alt="image" src="https://github.com/user-attachments/assets/d940b901-b025-49d3-9798-d6a59640275e" />
 
 SentinelAI is a modular AI interface and backend scaffold built with Node.js, TypeScript, and React. It currently provides a browser chat UI, a local API layer, and a hosted provider path through OpenRouter, with the project structured to grow toward multi-provider routing, local runtimes, and better observability.
 
 ## Overview
-
 - Frontend: React + Vite chat interface
 - Backend: Express + TypeScript API
 - Current provider path: OpenRouter
 - Project direction: hosted + local provider support through one interface
 
 ## Current State
+<img width="398" height="880" alt="image" src="https://github.com/user-attachments/assets/921a5da2-5dd8-41d8-87ae-7229bfc49bd9" />
 
 - Browser chat interface is live in `apps/web`
 - API chat route is live in `apps/api`
