@@ -3,6 +3,7 @@
 SentinelAI is a learning-first LLM project built around a small TypeScript/React scaffold and an incremental adaptation of [Andrej Karpathy's nanochat](https://github.com/karpathy/nanochat). The goal is to understand how a chat-serving system is structured without pretending the upstream ideas are original to this repository.
 
 ## What This Project Is
+<img width="3425" height="1321" alt="image" src="https://github.com/user-attachments/assets/fa34df66-7b9f-4e0d-83ab-edce33b48b16" />
 
 - A minimal monorepo with:
   - a Node.js + TypeScript API in `apps/api`
