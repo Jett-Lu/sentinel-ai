@@ -196,7 +196,8 @@ a {
 }
 
 .sentinel-copy {
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .sentinel-copy-pre {
@@ -305,18 +306,13 @@ a {
   text-align: center;
 }
 
-.sentinel-section-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+.sentinel-details-copy {
+  text-align: center;
 }
 
-.sentinel-section-card {
-  width: 100%;
-  padding: 20px;
-  background: white;
-  border: 2px solid black;
-  text-align: left;
+.sentinel-details-block {
+  display: grid;
+  gap: 18px;
 }
 
 #contact-icons {
@@ -441,7 +437,4 @@ a {
     width: calc(100% - 32px);
   }
 
-  .sentinel-section-grid {
-    grid-template-columns: 1fr;
-  }
 }
