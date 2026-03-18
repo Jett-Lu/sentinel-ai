@@ -1,15 +1,16 @@
-# Sentinel
+# SentinelAI
+<img width="3425" height="1321" alt="image" src="https://github.com/user-attachments/assets/d940b901-b025-49d3-9798-d6a59640275e" />
 
 Sentinel is a unified API and control layer for routing, observing, and managing LLM requests across hosted and local providers. This repository, `sentinel-ai-control-plane`, contains the current monorepo scaffold built with Node.js, TypeScript, and React.
 
 ## Overview
-
-- Frontend: React + Vite control-plane UI
+- Frontend: React + Vite chat interface
 - Backend: Express + TypeScript API
 - Current provider path: OpenRouter
 - Project direction: hosted + local provider support through one control layer
 
 ## Current State
+<img width="398" height="880" alt="image" src="https://github.com/user-attachments/assets/921a5da2-5dd8-41d8-87ae-7229bfc49bd9" />
 
 - Browser control-plane UI is live in `apps/web`
 - API chat route is live in `apps/api`
