@@ -7,4 +7,19 @@ export interface ModelProvider {
   id: string;
   name: string;
   capabilities: ProviderCapability;
+  kind?: "hosted" | "local";
+  enabled?: boolean;
+  defaultModel?: string;
+  supportedModels?: string[];
+  costRank?: number;
+  priority?: number;
+}
+
+export interface ProviderHealth {
+  providerId: string;
+  healthy: boolean;
+  status: "healthy" | "degraded" | "unhealthy";
+  latencyMs?: number;
+  message?: string;
+  checkedAt: string;
 }

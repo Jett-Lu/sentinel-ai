@@ -12,9 +12,21 @@ export interface ChatRequest {
   messages: ChatMessage[];
   provider?: string;
   model?: string;
+  temperature?: number;
+  maxTokens?: number;
+  topK?: number;
+}
+
+export interface TokenUsage {
+  promptTokens?: number;
+  completionTokens?: number;
+  totalTokens?: number;
 }
 
 export interface ChatResponse {
   id: string;
   output: string;
+  providerId?: string;
+  modelId?: string;
+  usage?: TokenUsage;
 }

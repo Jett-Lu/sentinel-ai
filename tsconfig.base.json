@@ -4,6 +4,13 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@sentinel/core": ["packages/core/src/index.ts"],
+      "@sentinel/providers": ["packages/providers/src/index.ts"],
+      "@sentinel/shared": ["packages/shared/src/index.ts"],
+      "@sentinel/sdk": ["packages/sdk/src/index.ts"]
+    },
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

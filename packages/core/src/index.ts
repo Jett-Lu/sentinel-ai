@@ -9,3 +9,5 @@ export * from "./application/ports/model-registry.port.js";
 export * from "./application/ports/routing-strategy.port.js";
 export * from "./application/ports/telemetry.port.js";
 export * from "./application/ports/usage-recorder.port.js";
+export * from "./application/use-cases/send-chat-message.js";
+export * from "./routing/routing-strategy.js";

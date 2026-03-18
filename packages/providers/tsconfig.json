@@ -2,7 +2,7 @@
   "//": "TypeScript configuration for provider adapters.",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": "../..",
     "outDir": "dist"
   },
   "include": ["src"]

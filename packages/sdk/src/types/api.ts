@@ -15,6 +15,8 @@ export interface ChatMessageApi {
 
 export interface ChatCompletionRequestApi {
   messages: ChatMessageApi[];
+  provider?: string;
+  model?: string;
   temperature?: number;
   max_tokens?: number;
   top_k?: number;

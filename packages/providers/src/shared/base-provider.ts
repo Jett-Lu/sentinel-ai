@@ -9,4 +9,16 @@ export abstract class BaseProvider {
   getProvider() {
     return this.metadata;
   }
+
+  supportsModel(model?: string) {
+    if (!model) {
+      return true;
+    }
+
+    if (!this.metadata.supportedModels || this.metadata.supportedModels.length === 0) {
+      return this.metadata.defaultModel === model;
+    }
+
+    return this.metadata.supportedModels.includes(model);
+  }
 }

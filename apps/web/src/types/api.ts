@@ -15,6 +15,8 @@ export interface ChatMessage {
 
 export interface ChatRequest {
   messages: ChatMessage[];
+  provider?: string;
+  model?: string;
   temperature?: number;
   max_tokens?: number;
   top_k?: number;
