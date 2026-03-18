@@ -35,25 +35,25 @@ export function App() {
             <h2>Details</h2>
             <div className="sentinel-details-block">
               <p className="sentinel-copy sentinel-details-copy">
-                <strong>Current strategy.</strong> SentinelAI currently runs through a hosted OpenRouter path connected
+                <strong>Current strategy.</strong> Sentinel currently runs through a hosted OpenRouter path connected
                 to the backend chat route. Requests from the interface are validated, normalized into the active message
                 format, and then passed through the current provider layer before a response is streamed back into the
-                browser. This gives the project a working end-to-end product path today while keeping the frontend and
-                backend organized enough to support future provider expansion without rebuilding the user interface.
+                browser. This gives the project a working end-to-end control-plane path today while keeping the frontend
+                and backend organized enough to support future provider expansion without rebuilding the user interface.
               </p>
               <p className="sentinel-copy sentinel-details-copy">
-                <strong>Next stage.</strong> The next major step is provider-aware routing so the platform can decide
-                which model or backend should handle a request based on capability, availability, and fallback policy.
-                That includes cleaner model selection, explicit failure handling, provider health checks, and better
-                separation between user-facing chat transport and the internal request-routing decisions that drive the
-                platform underneath.
+                <strong>Next stage.</strong> The next major step is provider-aware routing so the control plane can
+                decide which model or backend should handle a request based on capability, availability, cost, and
+                fallback policy. That includes cleaner model selection, explicit failure handling, provider health
+                checks, and better separation between user-facing chat transport and the internal request-routing
+                decisions that drive the platform underneath.
               </p>
               <p className="sentinel-copy sentinel-details-copy">
                 <strong>Active provider.</strong> OpenRouter is the active hosted provider currently backing the live
                 chat experience. It provides a practical way to test real responses through the current API while the
-                broader platform is still being built out. In its current form, this lets the application behave like a
-                real product surface instead of a static mock while still leaving room for additional providers and
-                runtime backends to be layered in behind the same chat experience.
+                broader control plane is still being built out. In its current form, this lets the application behave
+                like a real product surface instead of a static mock while still leaving room for additional providers
+                and runtime backends to be layered in behind the same chat experience.
               </p>
               <p className="sentinel-copy sentinel-details-copy">
                 <strong>Planned provider path.</strong> Local model runtimes such as Ollama remain the next major
@@ -83,7 +83,7 @@ export function App() {
         </section>
         <footer id="site-footer">
           <p>© 2026 Jett Lu</p>
-          <p>SentinelAI interface and product adaptation by Jett Lu.</p>
+          <p>Sentinel control-plane interface and product adaptation by Jett Lu.</p>
           <p>Upstream reference and adapted ideas from Andrej Karpathy&apos;s nanochat.</p>
         </footer>
       </>

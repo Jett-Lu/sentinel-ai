@@ -1,17 +1,17 @@
-# SentinelAI
+# Sentinel
 
-SentinelAI is a modular AI interface and backend scaffold built with Node.js, TypeScript, and React. It currently provides a browser chat UI, a local API layer, and a hosted provider path through OpenRouter, with the project structured to grow toward multi-provider routing, local runtimes, and better observability.
+Sentinel is a unified API and control layer for routing, observing, and managing LLM requests across hosted and local providers. This repository, `sentinel-ai-control-plane`, contains the current monorepo scaffold built with Node.js, TypeScript, and React.
 
 ## Overview
 
-- Frontend: React + Vite chat interface
+- Frontend: React + Vite control-plane UI
 - Backend: Express + TypeScript API
 - Current provider path: OpenRouter
-- Project direction: hosted + local provider support through one interface
+- Project direction: hosted + local provider support through one control layer
 
 ## Current State
 
-- Browser chat interface is live in `apps/web`
+- Browser control-plane UI is live in `apps/web`
 - API chat route is live in `apps/api`
 - OpenRouter-backed responses are wired through `/chat/completions`
 - Request validation, prompt/message handling, and SSE-style response flow are in place
@@ -20,15 +20,15 @@ SentinelAI is a modular AI interface and backend scaffold built with Node.js, Ty
   - security headers
   - reduced fingerprinting
   - in-memory chat rate limiting
-- Portfolio-style UI sections are included for:
-  - chat
-  - details
-  - contact
+- Control-plane UI sections are included for:
+  - chat surface
+  - architecture details
+  - contact links
   - resume link
 
 ## Details
 
-The current implementation uses a hosted OpenRouter path to support real chat responses through the existing backend route. Requests are validated, normalized, and passed through the active provider path before being streamed back into the browser UI. The broader goal is to expand this into a cleaner multi-provider platform with explicit routing, fallback behavior, and support for local model runtimes such as Ollama without changing the overall product surface.
+The current implementation uses a hosted OpenRouter path to support real chat responses through the existing backend route. Requests are validated, normalized, and passed through the active provider path before being streamed back into the browser UI. The broader goal is to expand this into a cleaner multi-provider control plane with explicit routing, fallback behavior, observability, and support for local model runtimes such as Ollama without changing the overall API surface.
 
 ## Project Structure
 
@@ -81,7 +81,7 @@ Open:
 
 - Upstream reference: [Andrej Karpathy's nanochat](https://github.com/karpathy/nanochat)
 - This repository adapts ideas from `nanochat`, especially the early chat-serving flow and request structure
-- Product/UI adaptation, TypeScript integration, and project structure in this repository are by Jett Lu
+- Product direction, control-plane adaptation, TypeScript integration, and project structure in this repository are by Jett Lu
 
 ## Notes
 

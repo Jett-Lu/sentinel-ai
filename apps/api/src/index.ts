@@ -8,5 +8,5 @@ const env = loadEnv();
 const app = createServer();
 
 app.listen(env.port, () => {
-  console.log(`SentinelAI API listening on port ${env.port}`);
+  console.log(`Sentinel API listening on port ${env.port}`);
 });

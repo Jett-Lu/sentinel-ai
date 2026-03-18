@@ -1,6 +1,6 @@
 {
-  "//": "Root workspace manifest for the SentinelAI monorepo.",
-  "name": "sentinel-ai",
+  "//": "Root workspace manifest for the sentinel-ai-control-plane monorepo.",
+  "name": "sentinel-ai-control-plane",
   "private": true,
   "version": "0.1.0",
   "workspaces": [

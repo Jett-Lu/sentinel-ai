@@ -15,7 +15,7 @@ export function AppShell({ children }: PropsWithChildren) {
         </button>
         <ul id="nav-links" className={menuOpen ? "show" : ""}>
           <li>
-            <a href="#chat" onClick={() => setMenuOpen(false)}>SentinelAI</a>
+            <a href="#chat" onClick={() => setMenuOpen(false)}>Sentinel</a>
           </li>
           <li>
             <a href="#details" onClick={() => setMenuOpen(false)}>Details</a>

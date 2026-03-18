@@ -102,10 +102,10 @@ export function ChatPage({
     <section className="sentinel-chat-page">
       <div className={`sentinel-chat-stage ${hasConversation ? "is-active" : ""}`}>
         {hasConversation ? (
-          <div className="sentinel-hero sentinel-hero-floating is-faded">
-            <div className="sentinel-hero-title">SentinelAI</div>
+            <div className="sentinel-hero sentinel-hero-floating is-faded">
+            <div className="sentinel-hero-title">Sentinel</div>
             <div className="sentinel-hero-subtitle">
-              Multi-provider AI platform interface by Jett Lu using nanochat
+              Unified API and control plane for routing and observing LLM traffic
             </div>
           </div>
         ) : null}
@@ -136,9 +136,9 @@ export function ChatPage({
           <div className="sentinel-idle-center">
             <div className="sentinel-composer-column">
               <div className="sentinel-hero">
-                <div className="sentinel-hero-title">SentinelAI</div>
+                <div className="sentinel-hero-title">Sentinel</div>
                 <div className="sentinel-hero-subtitle">
-                  Multi-provider AI platform interface by Jett Lu using nanochat
+                  Unified API and control plane for routing and observing LLM traffic
                 </div>
               </div>
 
